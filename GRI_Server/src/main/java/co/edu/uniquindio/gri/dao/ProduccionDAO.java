@@ -1,5 +1,6 @@
 package co.edu.uniquindio.gri.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,28 @@ import co.edu.uniquindio.gri.model.Tipo;
 import co.edu.uniquindio.gri.repository.ProduccionRepository;
 import co.edu.uniquindio.gri.repository.TipoRepository;
 
+/**
+ * Class ProduccionDAO.
+ */
 @Service
 public class ProduccionDAO {
 
+	/** Repository para producciones. */
 	@Autowired
 	ProduccionRepository produccionRepository;
 
+	/** Repository para tipos. */
 	@Autowired
 	TipoRepository tipoRepository;
 
+	/**
+	 * Obtiene las producciones de una entidad específica.
+	 *
+	 * @param type el tipo de la entidad (f: Facultad, p: Programa, c: Centro, g: Grupo de Investigación i: Investigador)
+	 * @param entityId el id de la entidad
+	 * @param tipoId el tipo de la producción a obtener
+	 * @return lista de producciones
+	 */
 	public List getProducciones(String type, Long entityId, Long tipoId) {
 		Tipo tipo = tipoRepository.findOne(tipoId);
 		long idTipoProd = tipo.getTipoProduccion().getId();
@@ -107,4 +121,22 @@ public class ProduccionDAO {
 
 		}
 	}
+	
+	
+	/**
+	 * Obtiene las producciones de acuerdo a una cadena de búsqueda.
+	 *
+	 * @param tipo, el tipo de búsqueda a realizar (i: CvLAC, g: GrupLAC)
+	 * @param cadena la cadena de búsqueda
+	 * @return lista de producciones correspondientes con la cadena de búsqueda.
+	 */
+	@SuppressWarnings({ "rawtypes" })
+	public List getProduccionBusqueda(String tipo, String cadena){
+		if(tipo.equals("g")){
+			return produccionRepository.getProduccionGBusqueda(cadena);
+		}else{
+			return produccionRepository.getProduccionBusqueda(cadena);	
+		}
+	}
 }
+

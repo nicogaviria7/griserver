@@ -12,18 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.uniquindio.gri.dao.TipoDAO;
 import co.edu.uniquindio.gri.model.Tipo;
 
+/**
+ * Class TipoController.
+ */
 @RestController
 @RequestMapping("/rest/service")
 public class TipoController {
 
+	/** DAO para tipos. */
 	@Autowired
 	TipoDAO tipoDAO;
 	
+	/**
+	 * Obtiene todos los tipos de producción.
+	 *
+	 * @return lista con todos los tipos de producción.
+	 */
 	@GetMapping("/tipos")
 	public List<Tipo> getAllTipos(){
 		return tipoDAO.getAllTipos();
 	}
 	
+	/**
+	 * Obtiene un tipos de producción especificado por un id.
+	 *
+	 * @param programaId el id del tipo
+	 * @return el tipos de producción especificado por el id
+	 */
 	@GetMapping("/tipos/{id}")
 	public ResponseEntity<Tipo> getTipoById(@PathVariable("id") Long tipoId){
 		Tipo tipo = tipoDAO.getTipoById(tipoId);
@@ -34,3 +49,4 @@ public class TipoController {
 		return ResponseEntity.ok().body(tipo);
 	}
 }
+

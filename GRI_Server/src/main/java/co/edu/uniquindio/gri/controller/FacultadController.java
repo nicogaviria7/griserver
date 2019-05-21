@@ -13,18 +13,33 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.uniquindio.gri.dao.FacultadDAO;
 import co.edu.uniquindio.gri.model.Facultad;
 
+/**
+ * Clase FacultadController.
+ */
 @RestController
 @RequestMapping("/rest/service")
-public class FacultadController {
+public class FacultadController {  
 
+	/** El DAO para facultades. */
 	@Autowired
 	FacultadDAO facultadDAO;
 
+	/**
+	 * Obtiene todas las facultades.
+	 *
+	 * @return lista con todas las facultades.
+	 */
 	@GetMapping("/facultades")
 	public List<Facultad> getAllFacultades() {
 		return facultadDAO.getAllFacultades();
 	}
 
+	/**
+	 * Obtiene una facultad especificada por id
+	 *
+	 * @param idFacultad el id de la facultad
+	 * @return la facultad especificada por el idFacultad
+	 */
 	@GetMapping("/facultades/{id}")
 	public ResponseEntity<Facultad> getFacultadById(@PathVariable(value = "id") Long idFacultad) {
 		Facultad facultad = facultadDAO.getFacultadById(idFacultad);
@@ -35,8 +50,14 @@ public class FacultadController {
 		return ResponseEntity.ok().body(facultad);
 	}
 	
+	/**
+	 * Obtiene las estadísticas del sistema.
+	 *
+	 * @return lista con las estadísticas del sistema. 
+	 */
 	@GetMapping("/stats")
 	public List<BigInteger> getStats(){
 		return facultadDAO.getStats();
 	}
 }
+

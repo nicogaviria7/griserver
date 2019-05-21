@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import co.edu.uniquindio.gri.model.Tipo;
 
+/**
+ * Interface TipoRepository.
+ */
 @Repository
 public interface TipoRepository extends JpaRepository<Tipo, Long>{
 

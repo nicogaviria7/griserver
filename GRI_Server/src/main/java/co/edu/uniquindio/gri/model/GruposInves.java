@@ -1,58 +1,52 @@
 package co.edu.uniquindio.gri.model;
+
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
  
 @Entity(name = "GRUPOS_INVES")
 @Table(name = "GRUPOS_INVES", schema = "gri")
 public class GruposInves implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
-	@Column(name = "ID")
-	@JsonIgnore
-	private long id;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "GRUPOS_ID")
+	@EmbeddedId
+	private CompositeKey id; 
+
+	@ManyToOne(fetch= FetchType.EAGER)
+	@MapsId("grupo")
 	private Grupo grupo;
- 
-	@ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "INVESTIGADORES_ID")
-	@JsonIgnore
-    private Investigador investigador;
-    
-    @Column(name = "ESTADO", length = 50)
-    @JsonIgnore
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@MapsId("investigador")
+	private Investigador investigador;
+
+	@Column(name = "ESTADO", length = 50)
 	private String estado;
- 
+
 	public GruposInves() {
-		super();
 	}
 
 	public GruposInves(Grupo grupo, Investigador investigador, String estado) {
+		this.id = new CompositeKey(grupo.getId(), investigador.getId());
 		this.grupo = grupo;
 		this.investigador = investigador;
 		this.estado = estado;
 	}
 
-
-	public long getId() {
+	public CompositeKey getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(CompositeKey id) {
 		this.id = id;
 	}
 
@@ -79,5 +73,5 @@ public class GruposInves implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-    	
+	
 }

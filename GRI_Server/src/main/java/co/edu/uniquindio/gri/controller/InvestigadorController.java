@@ -12,18 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.uniquindio.gri.dao.InvestigadorDAO;
 import co.edu.uniquindio.gri.model.Investigador;
 
+/**
+ * Class InvestigadorController.
+ */
 @RestController
 @RequestMapping("/rest/service")
 public class InvestigadorController {
 
+	/** DAO para investigador. */
 	@Autowired
 	InvestigadorDAO investigadorDAO;
 	
+	/**
+	 * Obtiene todos los investigadores.
+	 *
+	 * @return lista con todos los investigadores
+	 */
 	@GetMapping("/investigadores")
 	public List<Investigador> getAllInvestigadores(){
 		return investigadorDAO.findAll();
 	}
 	
+	/**
+	 * Obtiene un investigador especificado por un id.
+	 *
+	 * @param invId el id del investigador
+	 * @return el investigador por el id
+	 */
 	@GetMapping("/investigadores/{id}")
 	public ResponseEntity<Investigador> getInvestigadorById(@PathVariable(value="id") Long invId){
 		
@@ -36,6 +51,13 @@ public class InvestigadorController {
 		
 	}
 	
+	/**
+	 * Obtiene los integrantes de una entidad específica.
+	 *
+	 * @param tipo el tipo de entidad (f: Facultad, p: Programa, c: Centro, g: Grupo de Investigación)
+	 * @param id el id de la entidad
+	 * @return lista de integrantes de la entidad
+	 */
 	@GetMapping("/integrantes/{type}/{id}")
 	public List<Investigador> getIntegrantes(@PathVariable(value="type") String tipo, @PathVariable(value="id") Long id){	
 		return investigadorDAO.getIntegrantes(tipo, id);
